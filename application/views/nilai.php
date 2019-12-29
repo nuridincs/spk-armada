@@ -165,22 +165,7 @@
                 <tbody>
                 <?php 
                     $dataVektorArr = [];
-                    // for ($i=0; $i < count($dataArr); $i++) { 
-                    //     $countIndex = $i + 1;
-                    //     $cIndex = 'c'.$countIndex;
-
-                    //     $dataVektorArr[] = array(
-                    //         $cIndex => $nilai_kriteria[$i]->$cIndex,
-                    //         'bobot' => round($dataArr[$i], 9)
-                    //     );
-                    // }
-
-                    // round(pow(1,-0.129032258), 9);
-
-                    for ($i=0; $i < count($nilai_kriteria); $i++) { 
-                        $countIndex = $i + 1;
-                        $cIndex = 'c'.$countIndex;
-
+                    for ($i=0; $i < count($nilai_kriteria); $i++) {
                         $dataVektorC1 = array(
                             'c1' => $nilai_kriteria[$i]->c1,
                             'vektor' => round($dataArr[0], 9),
@@ -189,48 +174,40 @@
                         $dataVektorC2 = array(
                             'c2' => $nilai_kriteria[$i]->c2,
                             'vektor' => round($dataArr[1], 9),
-                            'bobot' => round(pow($nilai_kriteria[$i]->c1, -($dataArr[1])), 9)
+                            'bobot' => round(pow($nilai_kriteria[$i]->c2, -($dataArr[1])), 9)
                         );
                         $dataVektorC3 = array(
                             'c3' => $nilai_kriteria[$i]->c3,
                             'vektor' => round($dataArr[2], 9),
-                            'bobot' => round(pow($nilai_kriteria[$i]->c1, -($dataArr[2])), 9)
+                            'bobot' => round(pow($nilai_kriteria[$i]->c3, -($dataArr[2])), 9)
                         );
                         $dataVektorC4 = array(
                             'c4' => $nilai_kriteria[$i]->c4,
                             'vektor' => round($dataArr[3], 9),
-                            'bobot' => round(pow($nilai_kriteria[$i]->c1, -($dataArr[3])), 9)
+                            'bobot' => round(pow($nilai_kriteria[$i]->c4, ($dataArr[3])), 9)
                         );
                         $dataVektorC5 = array(
                             'c5' => $nilai_kriteria[$i]->c5,
                             'vektor' => round($dataArr[4], 9),
-                            'bobot' => round(pow($nilai_kriteria[$i]->c1, -($dataArr[4])), 9)
+                            'bobot' => round(pow($nilai_kriteria[$i]->c5, ($dataArr[4])), 9)
                         );
                         $dataVektorC6 = array(
                             'c6' => $nilai_kriteria[$i]->c6,
                             'vektor' => round($dataArr[5], 9),
-                            'bobot' => round(pow($nilai_kriteria[$i]->c1, -($dataArr[5])), 9)
+                            'bobot' => round(pow($nilai_kriteria[$i]->c6, ($dataArr[5])), 9)
                         );
                         $dataVektorC7 = array(
                             'c7' => $nilai_kriteria[$i]->c7,
                             'vektor' => round($dataArr[6], 9),
-                            'bobot' => round(pow($nilai_kriteria[$i]->c1, -($dataArr[6])), 9)
+                            'bobot' => round(pow($nilai_kriteria[$i]->c7, ($dataArr[6])), 9)
                         );
 
-                        $countC1 = $dataVektorC1['bobot'] * $dataVektorC2['bobot'] * $dataVektorC3['bobot'] * $dataVektorC4['bobot'] * $dataVektorC5['bobot'] * $dataVektorC6['bobot'] * $dataVektorC7['bobot'];
+                        $countVektor = $dataVektorC1['bobot'] * $dataVektorC2['bobot'] * $dataVektorC3['bobot'] * $dataVektorC4['bobot'] * $dataVektorC5['bobot'] * $dataVektorC6['bobot'] * $dataVektorC7['bobot'];
 
                         $dataVektorArr[] = array(
-                            'c1' => $countC1,
-                            'c2' => $dataVektorC2,
-                            'c3' => $dataVektorC3,
-                            'c4' => $dataVektorC4,
-                            'c5' => $dataVektorC5,
-                            'c6' => $dataVektorC6,
-                            'c7' => $dataVektorC7,
+                            'vektor' => round($countVektor, 9)
                         );
                     }
-                    // echo "<pre>";
-                    // print_r($dataVektorArr);die;
 
                     $no=0;
                     foreach ($nilai_kriteria as $data) {
@@ -254,21 +231,7 @@
 </div>
 
 <?php
-    $vektor = [
-        0.680542545,
-        0.70964339,
-        0.799729922,
-        1.402230072,
-        1.257942192,
-        0.888846845,
-        0.603178437,
-        1.297190467,
-        1.061870147,
-        0.663602826,
-        0.878265555,
-        0.921525545,
-        0.721324972
-    ];
+    $vektor = $dataVektorArr;
 ?>
 
 <!-- <div class="row">
@@ -294,17 +257,31 @@
                     $no=0;
                     $countVektor=0;
                     $dataVektor = [];
+                    $sumVektor2 = 0;
+                    for ($ii=0; $ii < count($vektor); $ii++) { 
+                        $sumVektor2 += $vektor[$ii]['vektor'];
+                        $dataVektor[] = array(
+                            'bobot' => round($vektor[0]['vektor']/($sumVektor2), 9)
+                        );
+                    }
+
+                    // echo "pangkat ". pow(1, -0.129032258);
+                    // echo "<pre>";
+                    // print_r($vektor);
+                    // print_r($sumVektor2);
+                    // die; 
+
                     foreach ($vektor as $data) { 
-                        $countVektor += $data;
+                        $countVektor += $data['vektor'];
                     }
 
                     foreach ($vektor as $data) { 
                         $no++;
-                        $dataVektor[] = array('bobot' => $data/$countVektor);
+                        // $dataVektor[] = array('bobot' => $data['vektor']/$countVektor);
                 ?>
                     <tr>
                         <td><?=$no ?></td>
-                        <td><?= round($data, 9) ?></td>
+                        <td><?= round($data['vektor'], 9) ?></td>
                     </tr>
                 <?php } ?> 
                 </tbody>
