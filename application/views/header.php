@@ -13,7 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>SB Admin - Start Bootstrap Template</title>
+    <title>SPK ARMADA</title>
 
     <!-- Bootstrap core CSS -->
     <link href="<?=base_url()?>resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
