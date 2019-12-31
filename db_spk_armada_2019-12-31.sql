@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.27)
 # Database: db_spk_armada
-# Generation Time: 2019-12-29 05:09:51 +0000
+# Generation Time: 2019-12-30 23:55:31 +0000
 # ************************************************************
 
 
@@ -49,17 +49,7 @@ LOCK TABLES `admin` WRITE;
 
 INSERT INTO `admin` (`id`, `username`, `password`, `email`, `last_signin`, `created_date`, `ip`, `verification_key`, `admin_group`, `name`, `address`, `address2`, `city`, `state`, `zip`)
 VALUES
-	(1,'admin','a1fa99a1724242d0931d4f9c62dd56a6','support@lenapo.com',2147483647,123132121,'127.0.0.1','dfasdfa3a33a',1,'Joseph Opanel',NULL,NULL,NULL,NULL,NULL),
-	(4,'admin','a1fa99a1724242d0931d4f9c62dd56a6','support@lenapo.com',2147483647,123132121,'127.0.0.1','dfasdfa3a33a',1,'Joseph Opanel',NULL,NULL,NULL,NULL,NULL),
-	(5,'admin','a1fa99a1724242d0931d4f9c62dd56a6','support@lenapo.com',2147483647,123132121,'127.0.0.1','dfasdfa3a33a',1,'Joseph Opanel',NULL,NULL,NULL,NULL,NULL),
-	(6,'admin','a1fa99a1724242d0931d4f9c62dd56a6','support@lenapo.com',2147483647,123132121,'127.0.0.1','dfasdfa3a33a',1,'Joseph Opanel',NULL,NULL,NULL,NULL,NULL),
-	(7,'admin','a1fa99a1724242d0931d4f9c62dd56a6','support@lenapo.com',2147483647,123132121,'127.0.0.1','dfasdfa3a33a',1,'Joseph Opanel',NULL,NULL,NULL,NULL,NULL),
-	(8,'admin','a1fa99a1724242d0931d4f9c62dd56a6','support@lenapo.com',2147483647,123132121,'127.0.0.1','dfasdfa3a33a',1,'Joseph Opanel',NULL,NULL,NULL,NULL,NULL),
-	(9,'admin','a1fa99a1724242d0931d4f9c62dd56a6','support@lenapo.com',2147483647,123132121,'127.0.0.1','dfasdfa3a33a',1,'Joseph Opanel',NULL,NULL,NULL,NULL,NULL),
-	(10,'admin','a1fa99a1724242d0931d4f9c62dd56a6','support@lenapo.com',2147483647,123132121,'127.0.0.1','dfasdfa3a33a',1,'Joseph Opanel',NULL,NULL,NULL,NULL,NULL),
-	(11,'admin','a1fa99a1724242d0931d4f9c62dd56a6','support@lenapo.com',2147483647,123132121,'127.0.0.1','dfasdfa3a33a',1,'Joseph Opanel',NULL,NULL,NULL,NULL,NULL),
-	(12,'admin','a1fa99a1724242d0931d4f9c62dd56a6','support@lenapo.com',2147483647,123132121,'127.0.0.1','dfasdfa3a33a',1,'Joseph Opanel',NULL,NULL,NULL,NULL,NULL),
-	(13,'admin','a1fa99a1724242d0931d4f9c62dd56a6','support@lenapo.com',2147483647,123132121,'127.0.0.1','dfasdfa3a33a',1,'Joseph Opanel',NULL,NULL,NULL,NULL,NULL);
+	(1,'admin','a1fa99a1724242d0931d4f9c62dd56a6','support@lenapo.com',2147483647,123132121,'127.0.0.1','dfasdfa3a33a',1,'Sarmadan',NULL,NULL,NULL,NULL,NULL);
 
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -398,7 +388,7 @@ VALUES
 	(4,3,3,3,6,1,5,2,1),
 	(5,4,2,4,6,6,5,4,3),
 	(6,5,1,5,6,1,6,5,4),
-	(7,6,5,2,6,1,2,1,1),
+	(7,6,5,2,6,1,1,1,1),
 	(8,7,5,4,4,1,2,1,1),
 	(9,8,1,5,4,1,6,4,4),
 	(10,9,3,2,1,1,5,2,1),
@@ -408,30 +398,6 @@ VALUES
 	(14,13,5,2,2,1,2,1,1);
 
 /*!40000 ALTER TABLE `nilai_kriteria` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table users
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `users`;
-
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(30) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `password` varchar(150) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-
-INSERT INTO `users` (`id`, `username`, `email`, `password`)
-VALUES
-	(1,'admin','admin@admin.com','123');
-
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
 

@@ -36,14 +36,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarExample" aria-controls="navbarExample" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="#">Admin Panel</a>
+        <a class="navbar-brand" href="#">SPK ARMADA</a>
         <div class="collapse navbar-collapse" id="navbarExample">
             <ul class="sidebar-nav navbar-nav">
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="<?=base_url()?>"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="<?=base_url()?>start/nilai"><i class="fa fa-fw fa-file"></i> Nilai</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="<?=base_url()?>logout"><i class="fa fa-fw fa-sign-out"></i> Logout</a>
                 </li>
                 <!-- <li class="nav-item">
                     <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents"><i class="fa fa-fw fa-wrench"></i> Settings</a>
@@ -57,7 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </ul>
                 </li> -->
             </ul>
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav ml-auto" style="display: none">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle mr-lg-2" href="#" id="messagesDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-fw fa-envelope"></i> <span class="hidden-lg-up">Messages <span class="badge badge-pill badge-primary">12 New</span></span>

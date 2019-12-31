@@ -19,4 +19,13 @@
 			return $data->result();
         }
 
+        public function getDtlKriteria()
+        {
+            $query = "select *, nilai_kriteria.id as id_kriteria, armada.id as id_armada
+                    from armada
+                    inner join nilai_kriteria on nilai_kriteria.id_armada = armada.id";
+            $result = $query->result();
+            return $result;
+        }
+
 	}

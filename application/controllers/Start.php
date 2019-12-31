@@ -27,7 +27,6 @@ class Start extends CI_Controller {
 			$data["kriteria"] = $this->Kriteria_model->getData('kriteria');
 			$data["armada"] = $this->Kriteria_model->getData('armada');
 			$data["nilai_kriteria"] = $this->Kriteria_model->getData('nilai_kriteria');
-			// print_r($data['kriteria']);die;
 			$this->load->view('header');
 			$this->load->view('nilai', $data);
 			$this->load->view('footer');

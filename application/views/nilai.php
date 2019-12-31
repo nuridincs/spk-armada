@@ -136,7 +136,7 @@
                         <td><?=$no ?></td>
                         <td><?= round($data, 9) ?></td>
                     </tr>
-                <?php } //echo "pangkat ". round(pow(1,-0.129032258), 9);//round(pow(6,-0.161290323), 9);?> 
+                <?php } ?> 
                 </tbody>
             </table>
         </div>
@@ -176,10 +176,17 @@
                             'vektor' => round($dataArr[1], 9),
                             'bobot' => round(pow($nilai_kriteria[$i]->c2, -($dataArr[1])), 9)
                         );
+
+                        if ($i === 5) {
+                            $dataC3 = ($dataArr[2]);
+                        } else {
+                            $dataC3 = -($dataArr[2]);
+                        }
+
                         $dataVektorC3 = array(
                             'c3' => $nilai_kriteria[$i]->c3,
                             'vektor' => round($dataArr[2], 9),
-                            'bobot' => round(pow($nilai_kriteria[$i]->c3, -($dataArr[2])), 9)
+                            'bobot' => round(pow($nilai_kriteria[$i]->c3, $dataC3), 9)
                         );
                         $dataVektorC4 = array(
                             'c4' => $nilai_kriteria[$i]->c4,
@@ -205,7 +212,8 @@
                         $countVektor = $dataVektorC1['bobot'] * $dataVektorC2['bobot'] * $dataVektorC3['bobot'] * $dataVektorC4['bobot'] * $dataVektorC5['bobot'] * $dataVektorC6['bobot'] * $dataVektorC7['bobot'];
 
                         $dataVektorArr[] = array(
-                            'vektor' => round($countVektor, 9)
+                            'vektor' => round($countVektor, 9),
+                            // 'type_armada' => $nilai_kriteria[$i]->type_armada
                         );
                     }
 
@@ -257,27 +265,22 @@
                     $no=0;
                     $countVektor=0;
                     $dataVektor = [];
-                    $sumVektor2 = 0;
+                    $sumVektor = 0;
                     for ($ii=0; $ii < count($vektor); $ii++) { 
-                        $sumVektor2 += $vektor[$ii]['vektor'];
-                        $dataVektor[] = array(
-                            'bobot' => round($vektor[0]['vektor']/($sumVektor2), 9)
-                        );
+                        $sumVektor += $vektor[$ii]['vektor'];
                     }
 
-                    // echo "pangkat ". pow(1, -0.129032258);
+                    // // echo "pangkat ". pow(1, -0.129032258);
                     // echo "<pre>";
                     // print_r($vektor);
-                    // print_r($sumVektor2);
+                    // print_r($vektor);
                     // die; 
 
-                    foreach ($vektor as $data) { 
-                        $countVektor += $data['vektor'];
-                    }
-
-                    foreach ($vektor as $data) { 
+                    foreach ($vektor as $key=>$data) { 
                         $no++;
-                        // $dataVektor[] = array('bobot' => $data['vektor']/$countVektor);
+                        $dataVektor[] = array(
+                            'bobot' => round($data['vektor']/($sumVektor), 9)
+                        );
                 ?>
                     <tr>
                         <td><?=$no ?></td>
@@ -306,9 +309,10 @@
                 <tbody>
                 <?php 
                     $no=0;
-
+                    $vektorMax=[];
                     foreach ($dataVektor as $data) { 
                         $no++;
+                        $vektorMax[] += $data['bobot'];
                 ?>
                     <tr>
                         <td><?=$no ?></td>
@@ -322,8 +326,8 @@
 </div>
 
 <div>
-<h1 align="center">Laporan Penilaian</h1>
-  <table border=1 class="table table-bordered table-striped" width="100%">
+<h3 align="center">HASIL TERTINGGI VEKTOR <br><?= max($vektorMax) ?></h3>
+  <!-- <table border=1 class="table table-bordered table-striped" width="100%">
     <thead>
       <tr>
         <th>No</th>
@@ -331,37 +335,37 @@
         <th>Ranking</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody> -->
     <?php
-        $data = $dataVektor; 
-        $nilai = array();
-        foreach ($data as $idx => $dataInd) {
-          $nilai[$dataInd['bobot']] = $dataInd['bobot'];
-        }
+        // $data = $dataVektor;
+        // $nilai = array();
+        // foreach ($data as $idx => $dataInd) {
+        //   $nilai[$dataInd['bobot']] = $dataInd['bobot'];
+        // }
         
-        rsort($nilai);
+        // rsort($nilai);
         
-        foreach ($data as $idx => $dataInd) {
-          $data[$idx]['rank'] = array_search($dataInd['bobot'], $nilai) + 1; 
-        }
+        // foreach ($data as $idx => $dataInd) {
+        //   $data[$idx]['rank'] = array_search($dataInd['bobot'], $nilai) + 1; 
+        // }
 
-        $no=0;
+        // $no=0;
         
-        foreach($data as $value) {
-            $no++;
-          $color = "";
-            if ($value['rank'] == 1) {
-              $color = "style='background-color: #3c8dbc; color: white; font-weight: bold;opacity: 0.5;'";
-            }
+        // foreach($data as $value) {
+        //     $no++;
+        //   $color = "";
+        //     if ($value['rank'] == 1) {
+        //       $color = "style='background-color: #3c8dbc; color: white; font-weight: bold;opacity: 0.5;'";
+        //     }
           ?>
-          <tr>
-            <td><?php echo $no ?></td>
-            <td><?php echo $value['bobot']; ?></td>
-            <td <?php echo $color ?> ><?php echo $value['rank']; ?></td>
-          </tr>
+          <tr><!-- 
+            <td><?php //echo $no ?></td>
+            <td><?php //echo $value['bobot']; ?></td>
+            <td <?php //echo $color ?> ><?php //echo $value['rank']; ?></td>
+          </tr> -->
           <?php
-        }
+        // }
     ?>
-    </tbody>
-  </table>
+    <!-- </tbody>
+  </table> -->
 </div>
