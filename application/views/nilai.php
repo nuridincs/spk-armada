@@ -1,7 +1,6 @@
 <?php
     defined('BASEPATH') OR exit('No direct script access allowed'); 
 ?>
-<!-- Breadcrumbs -->
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="<?=base_url()?>">Dashboard</a></li>
     <li class="breadcrumb-item">Nilai</li>
@@ -22,14 +21,6 @@
                         <th>Bobot</th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>No</th>
-                        <th>Kriteria</th>
-                        <th>Keterangan</th>
-                        <th>Bobot</th>
-                    </tr>
-                </tfoot>
                 <tbody>
                 <?php 
                     $no=0;
@@ -49,7 +40,7 @@
                         <td><?=$data->keterangan ?></td>
                         <td><?=$data->bobot ?></td>
                     </tr>
-                <?php } //echo "sum ".$sum." "; print_r($dataArr); ?> 
+                <?php } ?> 
                 </tbody>
             </table>
         </div>
@@ -59,6 +50,7 @@
 <div class="card mb-3">
     <div class="card-header">
         <i class="fa fa-table"></i> Data Armada
+        <button type="button" class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#myModal">Tambah Armada</button>
     </div>
     <div class="card-block">
         <div class="table-responsive">
@@ -74,21 +66,9 @@
                         <th>Harga Sewa</th>
                         <th>Tonase</th>
                         <th>Harga Jual</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>No</th>
-                        <th>Type Armada</th>
-                        <th>Harga Beli</th>
-                        <th>Biaya Pajak Tahunan</th>
-                        <th>Biaya Perawatan</th>
-                        <th>Banyak Sewa</th>
-                        <th>Harga Sewa</th>
-                        <th>Tonase</th>
-                        <th>Harga Jual</th>
-                    </tr>
-                </tfoot>
                 <tbody>
                 <?php 
                     $no=0;
@@ -105,6 +85,10 @@
                         <td><?=$data->harga_sewa ?></td>
                         <td><?=$data->tonase ?></td>
                         <td><?=$data->harga_jual ?></td>
+                        <td>
+                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" onclick="getDetail(<?= $data->id ?>)">Edit</button>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="delete()">Hapus</button>
+                        </td>
                     </tr>
                 <?php } ?> 
                 </tbody>
@@ -242,11 +226,6 @@
     $vektor = $dataVektorArr;
 ?>
 
-<!-- <div class="row">
-    <div class="col-md-6">test</div>
-    <div class="col-md-6">test</div>
-</div> -->
-
 <div class="card mb-3">
     <div class="card-header">
         <i class="fa fa-table"></i> Data Vektor
@@ -269,12 +248,6 @@
                     for ($ii=0; $ii < count($vektor); $ii++) { 
                         $sumVektor += $vektor[$ii]['vektor'];
                     }
-
-                    // // echo "pangkat ". pow(1, -0.129032258);
-                    // echo "<pre>";
-                    // print_r($vektor);
-                    // print_r($vektor);
-                    // die; 
 
                     foreach ($vektor as $key=>$data) { 
                         $no++;
@@ -326,46 +299,190 @@
 </div>
 
 <div>
-<h3 align="center">HASIL TERTINGGI VEKTOR <br><?= max($vektorMax) ?></h3>
-  <!-- <table border=1 class="table table-bordered table-striped" width="100%">
-    <thead>
-      <tr>
-        <th>No</th>
-        <th>Nilai</th>
-        <th>Ranking</th>
-      </tr>
-    </thead>
-    <tbody> -->
-    <?php
-        // $data = $dataVektor;
-        // $nilai = array();
-        // foreach ($data as $idx => $dataInd) {
-        //   $nilai[$dataInd['bobot']] = $dataInd['bobot'];
-        // }
-        
-        // rsort($nilai);
-        
-        // foreach ($data as $idx => $dataInd) {
-        //   $data[$idx]['rank'] = array_search($dataInd['bobot'], $nilai) + 1; 
-        // }
-
-        // $no=0;
-        
-        // foreach($data as $value) {
-        //     $no++;
-        //   $color = "";
-        //     if ($value['rank'] == 1) {
-        //       $color = "style='background-color: #3c8dbc; color: white; font-weight: bold;opacity: 0.5;'";
-        //     }
-          ?>
-          <tr><!-- 
-            <td><?php //echo $no ?></td>
-            <td><?php //echo $value['bobot']; ?></td>
-            <td <?php //echo $color ?> ><?php //echo $value['rank']; ?></td>
-          </tr> -->
-          <?php
-        // }
-    ?>
-    <!-- </tbody>
-  </table> -->
+    <h3 align="center">HASIL TERTINGGI VEKTOR <br><?= max($vektorMax) ?></h3>
 </div>
+
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        
+        <div class="modal-header">
+            <h4 class="modal-title">Tambah Data</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <form id="form-armada" method="POST">
+            <div class="modal-body">
+                <label for="">Nama Armada</label>
+                <div class="row">
+                    <div class="col">
+                        <input type="text" class="form-control" name="type_armada" id="type_armada">
+                    </div>
+                </div>
+                <label for="">Harga Beli</label>
+                <div class="row">
+                    <div class="col">
+                        <select class="form-control" name="kriteria_harga_beli" id="kriteria_harga_beli">
+                            <option value="0">--Silahkan Pilih--</option>
+                            <?php foreach($kriteria_harga_beli as $data): ?>
+                                <option data-id="<?= $data->keterangan ?>" value="<?= $data->id.'~'.$data->keterangan ?>"><?= $data->keterangan ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="">Biaya Pajak Tahunan</label>
+                        <input type="number" class="form-control" name="pajak_tahunan" id="pajak_tahunan">
+                    </div>
+                    <div class="col">
+                        <label for="">Kriteria</label>
+                        <select class="form-control" name="kriteria_pajak_tahunan" id="kriteria_pajak_tahunan">
+                            <option value="0">--Silahkan Pilih--</option>
+                            <?php foreach($kriteria_pajak_tahunan as $data): ?>
+                                <option value="<?= $data->id ?>"><?= $data->keterangan ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="">Biaya Perawatan</label>
+                        <input type="number" class="form-control" name="biaya_perawatan" id="biaya_perawatan">
+                    </div>
+                    <div class="col">
+                        <label for="">Kriteria</label>
+                        <select class="form-control" name="kriteria_biaya_perawatan" id="kriteria_biaya_perawatan">
+                            <option value="0">--Silahkan Pilih--</option>
+                            <?php foreach($kriteria_biaya_perawatan as $data): ?>
+                                <option value="<?= $data->id ?>"><?= $data->keterangan ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="">Banyak Sewa</label>
+                        <input type="number" class="form-control" name="banyak_sewa" id="banyak_sewa">
+                    </div>
+                    <div class="col">
+                        <label for="">Kriteria</label>
+                        <select class="form-control" name="kriteria_banyak_sewa" id="kriteria_banyak_sewa">
+                            <option value="0">--Silahkan Pilih--</option>
+                            <?php foreach($kriteria_banyak_sewa as $data): ?>
+                                <option value="<?= $data->id ?>"><?= $data->keterangan ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="">Harga Sewa</label>
+                        <input type="number" class="form-control" name="harga_sewa" id="harga_sewa">
+                    </div>
+                    <div class="col">
+                        <label for="">Kriteria</label>
+                        <select class="form-control" name="kriteria_harga_sewa" id="kriteria_harga_sewa">
+                            <option value="0">--Silahkan Pilih--</option>
+                            <?php foreach($kriteria_harga_sewa as $data): ?>
+                                <option value="<?= $data->id ?>"><?= $data->keterangan ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="">Tonase</label>
+                        <input type="number" class="form-control" name="tonase" id="tonase">
+                    </div>
+                    <div class="col">
+                        <label for="">Kriteria</label>
+                        <select class="form-control" name="kriteria_tonase" id="kriteria_tonase">
+                            <option value="0">--Silahkan Pilih--</option>
+                            <?php foreach($kriteria_tonase as $data): ?>
+                                <option value="<?= $data->id ?>"><?= $data->keterangan ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="">Harga Jual</label>
+                        <input type="number" class="form-control" name="harga_jual" id="harga_jual">
+                    </div>
+                    <div class="col">
+                        <label for="">Kriteria</label>
+                        <select class="form-control" name="kriteria_harga_jual" id="kriteria_harga_jual">
+                            <option value="0">--Silahkan Pilih--</option>
+                            <?php foreach($kriteria_harga_jual as $data): ?>
+                                <option value="<?= $data->id ?>"><?= $data->keterangan ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+            <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary btn-sm" id="submit">Submit</button>
+            <!-- <button type="button" class="btn btn-primary btn-sm" id="submit">Submit</button> -->
+            </div>
+        
+        </form>
+        </div>
+    </div>
+</div>
+
+<script src="<?=base_url()?>resources/vendor/jquery/jquery.min.js"></script>
+<script>
+    // $('#submit').click(function() {
+    //     console.log('oke');
+    // })
+    $('#form-armada').submit(function(e) {
+        var data = $(this).serialize();
+        $.ajax({
+            method: 'POST',
+            url: '<?php echo base_url('Start/add'); ?>',
+            data: data
+        })
+        .done(function(data) {
+            window.location.reload();
+        })
+        
+        e.preventDefault();
+    });
+
+    function getDetail(id) {
+        $.ajax({
+            method: 'POST',
+            url: '<?php echo base_url('Start/getDtlData'); ?>',
+            data: {id: id}
+        })
+        .done(function(response) {
+            const data = jQuery.parseJSON(response);
+            const dataArmada = data.armada;
+            const dataNilaiKriteria = data.nilai_kriteria;
+            // console.log('data', data);
+            $('#type_armada').val(dataArmada.type_armada);
+            $('#kriteria_harga_beli option[value="'+dataNilaiKriteria.c1+'~'+dataArmada.harga_beli+'"]').attr('selected','selected');
+
+            $('#pajak_tahunan').val(dataArmada.biaya_pajak_tahunan);
+            $('#kriteria_pajak_tahunan option[value='+dataNilaiKriteria.c2+']').attr('selected','selected');
+
+            $('#biaya_perawatan').val(dataArmada.biaya_perawatan);
+            $('#kriteria_biaya_perawatan option[value='+dataNilaiKriteria.c3+']').attr('selected','selected');
+
+            $('#banyak_sewa').val(dataArmada.banyak_sewa);
+            $('#kriteria_banyak_sewa option[value='+dataNilaiKriteria.c4+']').attr('selected','selected');
+
+            $('#harga_sewa').val(dataArmada.harga_sewa);
+            $('#kriteria_harga_sewa option[value='+dataNilaiKriteria.c5+']').attr('selected','selected');
+
+            $('#tonase').val(dataArmada.tonase);
+            $('#kriteria_tonase option[value='+dataNilaiKriteria.c6+']').attr('selected','selected');
+
+            $('#harga_jual').val(dataArmada.harga_jual);
+            $('#kriteria_harga_jual option[value='+dataNilaiKriteria.c7+']').attr('selected','selected');
+        })
+    }
+</script>
