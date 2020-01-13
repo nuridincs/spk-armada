@@ -84,4 +84,43 @@ class Start extends CI_Controller {
 
 		echo json_encode($result);
 	}
+
+	public function update() {
+		$data_harga_beli = $this->input->post('kriteria_harga_beli');
+		$explode = explode("~", $data_harga_beli);
+		$harga_beli = $explode[1];
+		$kriteria_harga_beli = $explode[0];
+		$id = $this->input->post('action');
+
+		$dataArmada = Array(
+			'type_armada' => $this->input->post('type_armada'),
+			'harga_beli' => $harga_beli,
+			'biaya_pajak_tahunan' => $this->input->post('pajak_tahunan'),
+			'biaya_perawatan' => $this->input->post('biaya_perawatan'),
+			'banyak_sewa' => $this->input->post('banyak_sewa'),
+			'harga_sewa' => $this->input->post('harga_sewa'),
+			'tonase' => $this->input->post('tonase'),
+			'harga_jual' => $this->input->post('harga_jual'),
+		);
+
+		$this->db->update('armada', $dataArmada, array('id' => $id));
+
+		$dataNilai = Array(
+			'c1' => $kriteria_harga_beli,
+			'c2' => $this->input->post('kriteria_pajak_tahunan'),
+			'c3' => $this->input->post('kriteria_biaya_perawatan'),
+			'c4' => $this->input->post('kriteria_banyak_sewa'),
+			'c5' => $this->input->post('kriteria_harga_sewa'),
+			'c6' => $this->input->post('kriteria_tonase'),
+			'c7' => $this->input->post('kriteria_harga_jual'),
+		);
+
+		$this->db->update('nilai_kriteria', $dataNilai, array('id_armada' => $id));
+	}
+
+	public function delete() {
+		$id = $this->input->post('id');
+		$this->db->delete('nilai_kriteria', array('id_armada' => $id));
+		$this->db->delete('armada', array('id' => $id));
+	}
 }

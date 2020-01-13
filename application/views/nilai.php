@@ -87,7 +87,7 @@
                         <td><?=$data->harga_jual ?></td>
                         <td>
                             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" onclick="getDetail(<?= $data->id ?>)">Edit</button>
-                            <button type="button" class="btn btn-danger btn-sm" onclick="delete()">Hapus</button>
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalDelete" onclick="getID('<?= $data->id ?>')">Hapus</button>
                         </td>
                     </tr>
                 <?php } ?> 
@@ -305,144 +305,181 @@
 <div class="modal" id="myModal">
     <div class="modal-dialog">
         <div class="modal-content">
-        
-        <div class="modal-header">
-            <h4 class="modal-title">Tambah Data</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        
-        <form id="form-armada" method="POST">
-            <div class="modal-body">
-                <label for="">Nama Armada</label>
-                <div class="row">
-                    <div class="col">
-                        <input type="text" class="form-control" name="type_armada" id="type_armada">
-                    </div>
-                </div>
-                <label for="">Harga Beli</label>
-                <div class="row">
-                    <div class="col">
-                        <select class="form-control" name="kriteria_harga_beli" id="kriteria_harga_beli">
-                            <option value="0">--Silahkan Pilih--</option>
-                            <?php foreach($kriteria_harga_beli as $data): ?>
-                                <option data-id="<?= $data->keterangan ?>" value="<?= $data->id.'~'.$data->keterangan ?>"><?= $data->keterangan ?></option>
-                            <?php endforeach ?>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <label for="">Biaya Pajak Tahunan</label>
-                        <input type="number" class="form-control" name="pajak_tahunan" id="pajak_tahunan">
-                    </div>
-                    <div class="col">
-                        <label for="">Kriteria</label>
-                        <select class="form-control" name="kriteria_pajak_tahunan" id="kriteria_pajak_tahunan">
-                            <option value="0">--Silahkan Pilih--</option>
-                            <?php foreach($kriteria_pajak_tahunan as $data): ?>
-                                <option value="<?= $data->id ?>"><?= $data->keterangan ?></option>
-                            <?php endforeach ?>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <label for="">Biaya Perawatan</label>
-                        <input type="number" class="form-control" name="biaya_perawatan" id="biaya_perawatan">
-                    </div>
-                    <div class="col">
-                        <label for="">Kriteria</label>
-                        <select class="form-control" name="kriteria_biaya_perawatan" id="kriteria_biaya_perawatan">
-                            <option value="0">--Silahkan Pilih--</option>
-                            <?php foreach($kriteria_biaya_perawatan as $data): ?>
-                                <option value="<?= $data->id ?>"><?= $data->keterangan ?></option>
-                            <?php endforeach ?>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <label for="">Banyak Sewa</label>
-                        <input type="number" class="form-control" name="banyak_sewa" id="banyak_sewa">
-                    </div>
-                    <div class="col">
-                        <label for="">Kriteria</label>
-                        <select class="form-control" name="kriteria_banyak_sewa" id="kriteria_banyak_sewa">
-                            <option value="0">--Silahkan Pilih--</option>
-                            <?php foreach($kriteria_banyak_sewa as $data): ?>
-                                <option value="<?= $data->id ?>"><?= $data->keterangan ?></option>
-                            <?php endforeach ?>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <label for="">Harga Sewa</label>
-                        <input type="number" class="form-control" name="harga_sewa" id="harga_sewa">
-                    </div>
-                    <div class="col">
-                        <label for="">Kriteria</label>
-                        <select class="form-control" name="kriteria_harga_sewa" id="kriteria_harga_sewa">
-                            <option value="0">--Silahkan Pilih--</option>
-                            <?php foreach($kriteria_harga_sewa as $data): ?>
-                                <option value="<?= $data->id ?>"><?= $data->keterangan ?></option>
-                            <?php endforeach ?>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <label for="">Tonase</label>
-                        <input type="number" class="form-control" name="tonase" id="tonase">
-                    </div>
-                    <div class="col">
-                        <label for="">Kriteria</label>
-                        <select class="form-control" name="kriteria_tonase" id="kriteria_tonase">
-                            <option value="0">--Silahkan Pilih--</option>
-                            <?php foreach($kriteria_tonase as $data): ?>
-                                <option value="<?= $data->id ?>"><?= $data->keterangan ?></option>
-                            <?php endforeach ?>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <label for="">Harga Jual</label>
-                        <input type="number" class="form-control" name="harga_jual" id="harga_jual">
-                    </div>
-                    <div class="col">
-                        <label for="">Kriteria</label>
-                        <select class="form-control" name="kriteria_harga_jual" id="kriteria_harga_jual">
-                            <option value="0">--Silahkan Pilih--</option>
-                            <?php foreach($kriteria_harga_jual as $data): ?>
-                                <option value="<?= $data->id ?>"><?= $data->keterangan ?></option>
-                            <?php endforeach ?>
-                        </select>
-                    </div>
-                </div>
+            <div class="modal-header">
+                <h4 class="modal-title">Tambah/Edit Data</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             
-            <div class="modal-footer">
-            <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary btn-sm" id="submit">Submit</button>
-            <!-- <button type="button" class="btn btn-primary btn-sm" id="submit">Submit</button> -->
+            <form class="form-armada" method="POST">
+                <input type="hidden" id="action" name="action">
+                <div class="modal-body">
+                    <label for="">Nama Armada</label>
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" class="form-control" name="type_armada" id="type_armada">
+                        </div>
+                    </div>
+                    <label for="">Harga Beli</label>
+                    <div class="row">
+                        <div class="col">
+                            <select class="form-control" name="kriteria_harga_beli" id="kriteria_harga_beli">
+                                <option value="0">--Silahkan Pilih--</option>
+                                <?php foreach($kriteria_harga_beli as $data): ?>
+                                    <option data-id="<?= $data->keterangan ?>" value="<?= $data->id.'~'.$data->keterangan ?>"><?= $data->keterangan ?></option>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="">Biaya Pajak Tahunan</label>
+                            <input type="number" class="form-control" name="pajak_tahunan" id="pajak_tahunan">
+                        </div>
+                        <div class="col">
+                            <label for="">Kriteria</label>
+                            <select class="form-control" name="kriteria_pajak_tahunan" id="kriteria_pajak_tahunan">
+                                <option value="0">--Silahkan Pilih--</option>
+                                <?php foreach($kriteria_pajak_tahunan as $data): ?>
+                                    <option value="<?= $data->id ?>"><?= $data->keterangan ?></option>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="">Biaya Perawatan</label>
+                            <input type="number" class="form-control" name="biaya_perawatan" id="biaya_perawatan">
+                        </div>
+                        <div class="col">
+                            <label for="">Kriteria</label>
+                            <select class="form-control" name="kriteria_biaya_perawatan" id="kriteria_biaya_perawatan">
+                                <option value="0">--Silahkan Pilih--</option>
+                                <?php foreach($kriteria_biaya_perawatan as $data): ?>
+                                    <option value="<?= $data->id ?>"><?= $data->keterangan ?></option>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="">Banyak Sewa</label>
+                            <input type="number" class="form-control" name="banyak_sewa" id="banyak_sewa">
+                        </div>
+                        <div class="col">
+                            <label for="">Kriteria</label>
+                            <select class="form-control" name="kriteria_banyak_sewa" id="kriteria_banyak_sewa">
+                                <option value="0">--Silahkan Pilih--</option>
+                                <?php foreach($kriteria_banyak_sewa as $data): ?>
+                                    <option value="<?= $data->id ?>"><?= $data->keterangan ?></option>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="">Harga Sewa</label>
+                            <input type="number" class="form-control" name="harga_sewa" id="harga_sewa">
+                        </div>
+                        <div class="col">
+                            <label for="">Kriteria</label>
+                            <select class="form-control" name="kriteria_harga_sewa" id="kriteria_harga_sewa">
+                                <option value="0">--Silahkan Pilih--</option>
+                                <?php foreach($kriteria_harga_sewa as $data): ?>
+                                    <option value="<?= $data->id ?>"><?= $data->keterangan ?></option>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="">Tonase</label>
+                            <input type="number" class="form-control" name="tonase" id="tonase">
+                        </div>
+                        <div class="col">
+                            <label for="">Kriteria</label>
+                            <select class="form-control" name="kriteria_tonase" id="kriteria_tonase">
+                                <option value="0">--Silahkan Pilih--</option>
+                                <?php foreach($kriteria_tonase as $data): ?>
+                                    <option value="<?= $data->id ?>"><?= $data->keterangan ?></option>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="">Harga Jual</label>
+                            <input type="number" class="form-control" name="harga_jual" id="harga_jual">
+                        </div>
+                        <div class="col">
+                            <label for="">Kriteria</label>
+                            <select class="form-control" name="kriteria_harga_jual" id="kriteria_harga_jual">
+                                <option value="0">--Silahkan Pilih--</option>
+                                <?php foreach($kriteria_harga_jual as $data): ?>
+                                    <option value="<?= $data->id ?>"><?= $data->keterangan ?></option>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-sm" id="submit">Submit</button>
+                    <!-- <button type="button" class="btn btn-primary btn-sm" id="submit">Submit</button> -->
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="modalDelete">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Hapus Data</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-        
-        </form>
+
+            <div class="modal-body">
+                <input type="hidden" id="del_id" names="del_id">
+                Apa Anda yakin ingin menghapus data ini?
+            </div>
+                
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary btn-sm" id="deleteData">Hapus</button>
+            </div>
+
         </div>
     </div>
 </div>
 
 <script src="<?=base_url()?>resources/vendor/jquery/jquery.min.js"></script>
 <script>
-    // $('#submit').click(function() {
-    //     console.log('oke');
-    // })
-    $('#form-armada').submit(function(e) {
-        var data = $(this).serialize();
+    $('#deleteData').click(function() {
+        const id = $('#del_id').val();
+        
         $.ajax({
             method: 'POST',
-            url: '<?php echo base_url('Start/add'); ?>',
+            url: '<?php echo base_url('Start/delete'); ?>',
+            data: {id: id}
+        })
+        .done(function(data) {
+            window.location.reload();
+        })
+    });
+
+    $('.form-armada').submit(function(e) {
+        const id = $('#action').val();
+        const data = $(this).serialize();
+        let actionUrl = '<?php echo base_url('Start/add'); ?>';
+        if (id) {
+            actionUrl = '<?php echo base_url('Start/update'); ?>';
+        }
+        
+        $.ajax({
+            method: 'POST',
+            url: actionUrl,
             data: data
         })
         .done(function(data) {
@@ -462,7 +499,8 @@
             const data = jQuery.parseJSON(response);
             const dataArmada = data.armada;
             const dataNilaiKriteria = data.nilai_kriteria;
-            // console.log('data', data);
+            $('#action').val(dataArmada.id);
+
             $('#type_armada').val(dataArmada.type_armada);
             $('#kriteria_harga_beli option[value="'+dataNilaiKriteria.c1+'~'+dataArmada.harga_beli+'"]').attr('selected','selected');
 
@@ -484,5 +522,24 @@
             $('#harga_jual').val(dataArmada.harga_jual);
             $('#kriteria_harga_jual option[value='+dataNilaiKriteria.c7+']').attr('selected','selected');
         })
-    }
+    };
+
+    function getID(id) {
+        $('#del_id').val(id);
+    };
+
+    // function deleteData() {
+    //     console.log('id delete');
+    //     const id = $('#del_id').val();
+    //     console.log('id', id);
+    //     // return false;
+    //     // $.ajax({
+    //     //     method: 'POST',
+    //     //     url: <?php //echo base_url('Start/delete'); ?>,
+    //     //     data: {id: id}
+    //     // })
+    //     // .done(function(data) {
+    //     //     window.location.reload();
+    //     // })
+    // };
 </script>
